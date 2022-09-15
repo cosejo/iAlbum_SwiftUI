@@ -8,9 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    let gridGuides = [
+        GridItem(.flexible(minimum: 100), alignment: .top),
+        GridItem(.flexible(minimum: 100), alignment: .top),
+        GridItem(.flexible(minimum: 100), alignment: .top)
+    ]
+    
     var body: some View {
-        Text("Hello, world!")
+        ScrollView {
+            LazyVGrid(columns: gridGuides, content: {
+                PhotoGridCell(imageName: "mail")
+                PhotoGridCell(imageName: "car")
+                PhotoGridCell(imageName: "wifi")
+                PhotoGridCell(imageName: "house")
+                PhotoGridCell(imageName: "pc")
+                PhotoGridCell(imageName: "smoke")
+                PhotoGridCell(imageName: "trash")
+            })
             .padding()
+        }
     }
 }
 
