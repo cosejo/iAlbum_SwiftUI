@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct iAlbum_SwiftUIApp: App {
+    @StateObject var appData = ApplicationData()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(appData)
         }
     }
 }

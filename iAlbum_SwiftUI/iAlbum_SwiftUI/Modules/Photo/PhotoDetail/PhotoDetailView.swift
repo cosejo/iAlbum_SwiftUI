@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct PhotoDetailView: View {
-    @State var imageName = "pencil"
+    @State var imageName = ""
     
     var body: some View {
-        PhotoGridCell(imageName: imageName)
-            .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .padding()
+        VStack(alignment: .center, spacing: 20, content: {
+            PhotoGridCell(imageName: imageName)
+                .frame(width: 150, height: 150, alignment: .center)
+                .padding()
+        })
     }
 }
 
 struct PhotoDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoDetailView()
+        PhotoDetailView(imageName: ApplicationData().userData[0].photo.title)
     }
 }

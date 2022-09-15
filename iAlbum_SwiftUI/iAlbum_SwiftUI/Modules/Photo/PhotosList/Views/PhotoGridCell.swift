@@ -13,7 +13,6 @@ struct PhotoGridCell: View {
     var body: some View {
         ZStack {
             Color.white
-                .frame(width: .infinity, height: .infinity, alignment: .center)
                 .shadow(radius: 5)
             Image(systemName: imageName)
                 .resizable()
@@ -25,6 +24,6 @@ struct PhotoGridCell: View {
 
 struct PhotoGridCell_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoGridCell()
+        PhotoGridCell(imageName: "car")
     }
 }

@@ -17,14 +17,22 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridGuides, content: {
-                ForEach(appData.userData, id: \.self.photo.id) { photo in
-                    PhotoGridCell(imageName: photo.photo.title)
-                }
-            })
-            .padding()
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: gridGuides, content: {
+                    ForEach(appData.userData, id: \.self.photo.id) { photoViewModel in
+                        NavigationLink(
+                            destination: PhotoDetailView(imageName: photoViewModel.photo.title),
+                            label: {
+                                PhotoGridCell(imageName: photoViewModel.photo.title)
+                            })
+                    }
+                    .foregroundColor(.black)
+                })
+                .padding()
+            }
         }
+        .navigationTitle("Images")
     }
 }
 
@@ -34,6 +42,7 @@ struct ContentView_Previews: PreviewProvider {
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
             .environmentObject(ApplicationData())
         ContentView()
+            .previewDevice("iPad Pro (12.9-inch) (5th generation)")
             .previewDevice(PreviewDevice(rawValue: "iPad Pro"))
             .environmentObject(ApplicationData())
     }
