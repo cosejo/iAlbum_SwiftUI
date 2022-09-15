@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var appData: ApplicationData
     
     let gridGuides = [
         GridItem(.flexible(minimum: 100), alignment: .top),
@@ -18,13 +19,9 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridGuides, content: {
-                PhotoGridCell(imageName: "mail")
-                PhotoGridCell(imageName: "car")
-                PhotoGridCell(imageName: "wifi")
-                PhotoGridCell(imageName: "house")
-                PhotoGridCell(imageName: "pc")
-                PhotoGridCell(imageName: "smoke")
-                PhotoGridCell(imageName: "trash")
+                ForEach(appData.userData, id: \.self.photo.id) { photo in
+                    PhotoGridCell(imageName: photo.photo.title)
+                }
             })
             .padding()
         }
@@ -34,5 +31,10 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
+            .environmentObject(ApplicationData())
+        ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro"))
+            .environmentObject(ApplicationData())
     }
 }
