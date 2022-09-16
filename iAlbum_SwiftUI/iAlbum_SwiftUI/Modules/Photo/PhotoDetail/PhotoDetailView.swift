@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct PhotoDetailView: View {
-    @State var imageName = ""
+    @State var urlString = ""
     
     var body: some View {
         VStack(alignment: .center, spacing: 20, content: {
-            PhotoGridCell(imageName: imageName)
+            PhotoGridCell(urlString: urlString)
                 .frame(width: 150, height: 150, alignment: .center)
                 .padding()
         })
@@ -21,6 +21,6 @@ struct PhotoDetailView: View {
 
 struct PhotoDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoDetailView(imageName: ApplicationData().userData[0].photo.title)
+        PhotoDetailView(urlString: "https://via.placeholder.com/600/771796")
     }
 }

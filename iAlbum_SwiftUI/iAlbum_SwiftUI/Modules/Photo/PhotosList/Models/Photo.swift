@@ -25,7 +25,3 @@ extension Photo: Decodable {
         case thumbnailUrl
     }
 }
-
-struct PhotoViewModel {
-    var photo: Photo
-}

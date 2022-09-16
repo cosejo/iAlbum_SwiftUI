@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var appData: ApplicationData
+    @ObservedObject private var photosListViewModel = PhotosListViewModel()
+    
+    init() {
+        photosListViewModel.loadPhotos()
+    }
     
     let gridGuides = [
         GridItem(.flexible(minimum: 100), alignment: .top),
@@ -17,22 +21,34 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: gridGuides, content: {
-                    ForEach(appData.userData, id: \.self.photo.id) { photoViewModel in
-                        NavigationLink(
-                            destination: PhotoDetailView(imageName: photoViewModel.photo.title),
-                            label: {
-                                PhotoGridCell(imageName: photoViewModel.photo.title)
-                            })
-                    }
-                    .foregroundColor(.black)
-                })
-                .padding()
+//        List {
+            NavigationView {
+                ScrollView {
+                    LazyVGrid(columns: gridGuides, content: {
+                        ForEach(photosListViewModel.photos, id: \.self.id) { photoViewModel in
+                            NavigationLink(
+                                destination: PhotoDetailView(urlString: photoViewModel.thumbnailUrl),
+                                label: {
+                                    PhotoGridCell(urlString: photoViewModel.imageURL)
+                                })
+                                .onAppear(perform: {
+                                    if photosListViewModel.photos.last?.id == photoViewModel.id {
+                                        photosListViewModel.loadPhotos()
+                                    }
+                                })
+                        }
+                        .foregroundColor(.black)
+                    })
+                    .padding()
+                }
             }
-        }
-        .navigationTitle("Images")
+            .navigationTitle("")
+            .navigationBarHidden(true)
+//        }
+//        .listStyle(.plain)
+//        .refreshable {
+//            onRefresh()
+//        }
     }
 }
 
@@ -40,10 +56,11 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
-            .environmentObject(ApplicationData())
-        ContentView()
-            .previewDevice("iPad Pro (12.9-inch) (5th generation)")
-            .previewDevice(PreviewDevice(rawValue: "iPad Pro"))
-            .environmentObject(ApplicationData())
+//            .environmentObject(ApplicationData())
+        //        ContentView()
+        //            .previewDevice("iPad Pro (12.9-inch) (5th generation)")
+        //            .previewDevice(PreviewDevice(rawValue: "iPad Pro"))
+        //            .environmentObject(ApplicationData())
     }
 }
+

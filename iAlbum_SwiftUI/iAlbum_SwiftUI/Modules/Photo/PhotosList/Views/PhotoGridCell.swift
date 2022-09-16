@@ -8,22 +8,19 @@
 import SwiftUI
 
 struct PhotoGridCell: View {
-    @State var imageName = ""
+    @State var urlString = ""
     
     var body: some View {
         ZStack {
             Color.white
                 .shadow(radius: 5)
-            Image(systemName: imageName)
-                .resizable()
-                .scaledToFit()
-                .padding(.all, 10)
+            DownloadableImageView(urlString: urlString)
         }
     }
 }
 
 struct PhotoGridCell_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoGridCell(imageName: "car")
+        PhotoGridCell(urlString: "https://via.placeholder.com/600/771796")
     }
 }
