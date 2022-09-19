@@ -32,13 +32,11 @@ class PhotosListViewModel: ObservableObject {
     
     func fetchPhotos(index: Int, limit: Int, isReload: Bool = false) {
         networkManager.getPhotos(index: index, limit: limit) { [weak self] newPhotos, error in
-            DispatchQueue.main.async {
-                if let photos = newPhotos {
-                    self?.photos.append(contentsOf: photos.map(PhotoViewModel.init)) 
-                }
-            
-                self?.error = error != nil
+            if let addedPhotos = newPhotos {
+                self?.photos.append(contentsOf: addedPhotos.map(PhotoViewModel.init))
             }
+            
+            self?.error = error != nil
         }
     }
 }

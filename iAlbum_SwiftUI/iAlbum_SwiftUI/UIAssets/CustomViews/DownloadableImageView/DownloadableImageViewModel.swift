@@ -14,6 +14,7 @@ class DownloadableImageViewModel: ObservableObject {
     public var imageCache: ImageCache?
     
     @Published var image: UIImage
+    @Published var error = false
     
     init(networkManager: NetworkManager = IAlbumNetworkManager(), imageCache: ImageCache?) {
         self.networkManager = networkManager
@@ -23,6 +24,7 @@ class DownloadableImageViewModel: ObservableObject {
     
     func downloadImage(_ urlString: String) {
         guard let url = URL(string: urlString) else {
+            error = true
             return
         }
         
@@ -37,6 +39,7 @@ class DownloadableImageViewModel: ObservableObject {
             guard let self = self,
                   let data = data,
                   let downloadImage = UIImage(data: data) else {
+                self?.error = true
                 return
             }
             
