@@ -10,11 +10,12 @@ import SwiftUI
 @main
 struct iAlbum_SwiftUIApp: App {
     @StateObject var appData = ApplicationData()
+    @StateObject var imageCache = ImageCache()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(appData)
+            PhotoListView()
+                .environmentObject(imageCache)
         }
     }
 }

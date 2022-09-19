@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct PhotoGridCell: View {
+    @EnvironmentObject var imageCache: ImageCache
     @State var urlString = ""
     
     var body: some View {
         ZStack {
             Color.white
                 .shadow(radius: 5)
-            DownloadableImageView(urlString: urlString)
+            DownloadableImageView(urlString: urlString, imageCache: imageCache)
         }
     }
 }

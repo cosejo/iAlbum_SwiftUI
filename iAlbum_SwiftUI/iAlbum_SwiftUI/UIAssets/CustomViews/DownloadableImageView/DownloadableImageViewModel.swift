@@ -11,11 +11,14 @@ import SwiftUI
 class DownloadableImageViewModel: ObservableObject {
     
     public var networkManager: NetworkManager
+    public var imageCache: ImageCache?
     
-    @Published var image: UIImage = UIImage()
+    @Published var image: UIImage
     
-    init(networkManager: NetworkManager = IAlbumNetworkManager()) {
+    init(networkManager: NetworkManager = IAlbumNetworkManager(), imageCache: ImageCache?) {
         self.networkManager = networkManager
+        self.imageCache = imageCache
+        image = UIImage()
     }
     
     func downloadImage(_ urlString: String) {
@@ -23,15 +26,25 @@ class DownloadableImageViewModel: ObservableObject {
             return
         }
         
+        image = UIImage()
+        
+        if let cachedImage = imageCache?.get(forKey: urlString) {
+            self.image = cachedImage
+            return
+        }
+        
         networkManager.downloadImage(url) { [weak self] data, error in
             guard let self = self,
-                  let data = data else {
+                  let data = data,
+                  let downloadImage = UIImage(data: data) else {
                 return
             }
             
             DispatchQueue.main.async {
-                self.image = UIImage(data: data) ?? UIImage()
+                self.image = downloadImage
             }
+            
+            self.imageCache?.set(forKey: urlString, image: downloadImage)
         }
     }
     

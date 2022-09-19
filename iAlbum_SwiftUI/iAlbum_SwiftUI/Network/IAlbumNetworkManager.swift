@@ -40,6 +40,8 @@ class IAlbumNetworkManager: NetworkManager {
                     callback(nil, error)
                     break
                 }
+            } else {
+                callback(nil, error)
             }
         })
         

@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct DownloadableImageView: View {
+    @ObservedObject var viewModel: DownloadableImageViewModel
+    @State var image: UIImage = UIImage()
+    
     var urlString: String
     
-    @ObservedObject var viewModel = DownloadableImageViewModel()
-    @State var image: UIImage = UIImage()
+    init(urlString: String, imageCache: ImageCache?) {
+        self.urlString = urlString
+        viewModel = DownloadableImageViewModel(imageCache: imageCache)
+    }
     
     var body: some View {
         Image(uiImage: image)
@@ -21,7 +26,6 @@ struct DownloadableImageView: View {
                 self.image = image
             }
             .onAppear {
-//                self.image = UIImage(systemName: "trash")!
                 viewModel.downloadImage(urlString)
             }
     }
@@ -29,6 +33,6 @@ struct DownloadableImageView: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        DownloadableImageView(urlString: "https://via.placeholder.com/600/771796")
+        DownloadableImageView(urlString: "https://via.placeholder.com/600/771796", imageCache: nil)
     }
 }
